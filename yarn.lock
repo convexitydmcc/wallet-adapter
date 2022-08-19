@@ -4279,7 +4279,7 @@
 
 "@solana/wallet-adapter-nitrogen@file:/run/media/ais/E/projects/convexitydmcc/wallet-adapter/packages/wallets/nitrogen":
   "resolved" "file:packages/wallets/nitrogen"
-  "version" "0.1.0"
+  "version" "0.1.1"
   dependencies:
     "@solana/wallet-adapter-base" "0.9.9"
 
@@ -4396,17 +4396,6 @@
     "process" "^0.11.10"
     "stream-browserify" "^3.0.0"
 
-"@solana/wallet-adapter-walletconnect@file:/run/media/ais/E/projects/convexitydmcc/wallet-adapter/packages/wallets/walletconnect":
-  "resolved" "file:packages/wallets/walletconnect"
-  "version" "0.1.0"
-  dependencies:
-    "@solana/wallet-adapter-base" "0.9.9"
-    "@solana/web3.js" "1.48.0"
-    "@walletconnect/client" "2.0.0-beta.26"
-    "@walletconnect/legacy-modal" "2.0.0-beta.26"
-    "@walletconnect/utils" "2.0.0-beta.26"
-    "bs58" "5.0.0"
-
 "@solana/wallet-adapter-wallets@^0.17.0", "@solana/wallet-adapter-wallets@file:/run/media/ais/E/projects/convexitydmcc/wallet-adapter/packages/wallets/wallets":
   "resolved" "file:packages/wallets/wallets"
   "version" "0.17.0"
@@ -4445,7 +4434,7 @@
     "@solana/wallet-adapter-tokenpocket" "^0.4.7"
     "@solana/wallet-adapter-torus" "^0.11.15"
 
-"@solana/web3.js@^1.20.0", "@solana/web3.js@^1.30.2", "@solana/web3.js@^1.31.0", "@solana/web3.js@^1.36.0", "@solana/web3.js@^1.44.3", "@solana/web3.js@^1.5.0", "@solana/web3.js@1.48.0":
+"@solana/web3.js@^1.20.0", "@solana/web3.js@^1.30.2", "@solana/web3.js@^1.31.0", "@solana/web3.js@^1.36.0", "@solana/web3.js@^1.44.3", "@solana/web3.js@^1.5.0":
   "integrity" "sha512-Gb6XvdhGjGI7CdAXLmlMIEvEYvrwqc78JOtwCsSrTqzz7Ek/BhJpZ/Cv89gxRDrWxf6kHegAfaN2FxwuYMmDZQ=="
   "resolved" "https://registry.npmjs.org/@solana/web3.js/-/web3.js-1.48.0.tgz"
   "version" "1.48.0"
@@ -5082,13 +5071,6 @@
   dependencies:
     "@types/node" "*"
 
-"@types/pino@7.0.5":
-  "integrity" "sha512-wKoab31pknvILkxAF8ss+v9iNyhw5Iu/0jLtRkUD74cNfOOLJNnqfFKAv0r7wVaTQxRZtWrMpGfShwwBjOcgcg=="
-  "resolved" "https://registry.npmjs.org/@types/pino/-/pino-7.0.5.tgz"
-  "version" "7.0.5"
-  dependencies:
-    "pino" "*"
-
 "@types/prettier@^2.1.5", "@types/prettier@^2.4.2", "@types/prettier@^2.4.3":
   "integrity" "sha512-ymZk3LEC/fsut+/Q5qejp6R9O1rMxz3XaRHDV6kX8MrGAhOSPqVARbDi+EZvInBpw+BnCX3TD240byVkOfQsHg=="
   "resolved" "https://registry.npmjs.org/@types/prettier/-/prettier-2.6.3.tgz"
@@ -5352,25 +5334,6 @@
     "@typescript-eslint/types" "5.30.0"
     "eslint-visitor-keys" "^3.3.0"
 
-"@walletconnect/client@2.0.0-beta.26":
-  "integrity" "sha512-BQNLS+kQyxOEIECwHN0sW+iF0CGWLECorSwmPGnadv/7kX3xGIEzv6mBOjBJisyIoea50RfADmKZNa//H1khxw=="
-  "resolved" "https://registry.npmjs.org/@walletconnect/client/-/client-2.0.0-beta.26.tgz"
-  "version" "2.0.0-beta.26"
-  dependencies:
-    "@walletconnect/encoding" "^1.0.1"
-    "@walletconnect/events" "^1.0.0"
-    "@walletconnect/heartbeat" "^1.0.0"
-    "@walletconnect/jsonrpc-provider" "^1.0.3"
-    "@walletconnect/jsonrpc-utils" "^1.0.0"
-    "@walletconnect/jsonrpc-ws-connection" "^1.0.0"
-    "@walletconnect/logger" "^1.0.0"
-    "@walletconnect/relay-api" "^1.0.2"
-    "@walletconnect/safe-json" "^1.0.0"
-    "@walletconnect/time" "^1.0.1"
-    "@walletconnect/types" "^2.0.0-beta.26"
-    "@walletconnect/utils" "^2.0.0-beta.26"
-    "ws" "^8.3.0"
-
 "@walletconnect/crypto@^1.0.2":
   "integrity" "sha512-+OlNtwieUqVcOpFTvLBvH+9J9pntEqH5evpINHfVxff1XIgwV55PpbdvkHu6r9Ib4WQDOFiD8OeeXs1vHw7xKQ=="
   "resolved" "https://registry.npmjs.org/@walletconnect/crypto/-/crypto-1.0.2.tgz"
@@ -5451,17 +5414,6 @@
     "@walletconnect/safe-json" "^1.0.0"
     "ws" "^7.5.1"
 
-"@walletconnect/legacy-modal@2.0.0-beta.26":
-  "integrity" "sha512-MTLLAv7roOtk8OM1B3X1EHXgVMFps9ryK1gcBV2RbVmUjuO4EPojJMnBDdMCegIovisqXuWDy0hM+MTGFHmDDA=="
-  "resolved" "https://registry.npmjs.org/@walletconnect/legacy-modal/-/legacy-modal-2.0.0-beta.26.tgz"
-  "version" "2.0.0-beta.26"
-  dependencies:
-    "@walletconnect/legacy-types" "^2.0.0-beta.26"
-    "@walletconnect/legacy-utils" "^2.0.0-beta.26"
-    "copy-to-clipboard" "^3.3.1"
-    "preact" "10.4.1"
-    "qrcode" "1.4.4"
-
 "@walletconnect/legacy-types@^2.0.0-beta.26", "@walletconnect/legacy-types@^2.0.0-rc.0":
   "integrity" "sha512-9dDfZ+jTOycOSm4+HmcDj5T8qotqY96BaEU/LdQ6H2M/mBoYLkPLMlaNLoqIpSm+ebOj9CF0T6B251ZAZoo7/Q=="
   "resolved" "https://registry.npmjs.org/@walletconnect/legacy-types/-/legacy-types-2.0.0-rc.0.tgz"
@@ -5516,7 +5468,7 @@
   "resolved" "https://registry.npmjs.org/@walletconnect/time/-/time-1.0.1.tgz"
   "version" "1.0.1"
 
-"@walletconnect/types@^2.0.0-beta.26", "@walletconnect/types@2.0.0-beta.26":
+"@walletconnect/types@^2.0.0-beta.26":
   "integrity" "sha512-wVtgEEgBLxrmKhaZ1UqHVQgKuZiYdPF4vo910RqrSOZbbPRNBtrHY37JvhQdZKe2Ake1r1x66tPyOR+WaMp1Zg=="
   "resolved" "https://registry.npmjs.org/@walletconnect/types/-/types-2.0.0-beta.26.tgz"
   "version" "2.0.0-beta.26"
@@ -5528,7 +5480,7 @@
     "pino" "^6.7.0"
     "pino-pretty" "^4.3.0"
 
-"@walletconnect/utils@^2.0.0-beta.26", "@walletconnect/utils@2.0.0-beta.26":
+"@walletconnect/utils@^2.0.0-beta.26":
   "integrity" "sha512-RjADvX6d8K3eqLcxFIiQDFV9ajiI7kQX4+iVV63uf5rlC+HnIX+jwIYJWlD+eR6JPmfIIskoG5/m0RqK/iphjA=="
   "resolved" "https://registry.npmjs.org/@walletconnect/utils/-/utils-2.0.0-beta.26.tgz"
   "version" "2.0.0-beta.26"
@@ -6906,13 +6858,6 @@
     "base-x" "^3.0.2"
 
 "bs58@^5.0.0":
-  "integrity" "sha512-r+ihvQJvahgYT50JD05dyJNKlmmSlMoOGwn1lCcEzanPglg7TxYjioQUYehQ9mAR/+hOSd2jRc/Z2y5UxBymvQ=="
-  "resolved" "https://registry.npmjs.org/bs58/-/bs58-5.0.0.tgz"
-  "version" "5.0.0"
-  dependencies:
-    "base-x" "^4.0.0"
-
-"bs58@5.0.0":
   "integrity" "sha512-r+ihvQJvahgYT50JD05dyJNKlmmSlMoOGwn1lCcEzanPglg7TxYjioQUYehQ9mAR/+hOSd2jRc/Z2y5UxBymvQ=="
   "resolved" "https://registry.npmjs.org/bs58/-/bs58-5.0.0.tgz"
   "version" "5.0.0"
@@ -14771,7 +14716,7 @@
   "resolved" "https://registry.npmjs.org/pino-std-serializers/-/pino-std-serializers-6.0.0.tgz"
   "version" "6.0.0"
 
-"pino@*", "pino@8.4.1":
+"pino@*":
   "integrity" "sha512-rZnbTUNFiYBH1H2OfYYVNBEFRDhN2nRaEmBD2+MDmGXSGyps+YPJ55LzWZP90zg7zyWKy0ZMqGlk47AO6OaBqQ=="
   "resolved" "https://registry.npmjs.org/pino/-/pino-8.4.1.tgz"
   "version" "8.4.1"
