@@ -1,9 +1,9 @@
+import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseSignerWalletAdapter,
     WalletConnectionError,
     WalletDisconnectionError,
     WalletError,
-    WalletName,
     WalletNotConnectedError,
     WalletPublicKeyError,
     WalletReadyState,
@@ -29,6 +29,7 @@ export enum WalletConnectRPCMethod {
 }
 
 export interface WalletConnectWalletAdapterConfig {
+    chainId: string;
     options: SignClientTypes.Options;
     params?: any;
 }
@@ -46,7 +47,7 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
     readyState: WalletReadyState = typeof window === 'undefined' || typeof document === 'undefined'
         ? WalletReadyState.Unsupported
         : WalletReadyState.Installed;
-    private chainId = process?.env?.REACT_APP_PUBLIC_WALLETCONNECT_CHAIN_ID || '';
+    private chainId: string;
     private params: any;
     private session: SessionTypes.Struct | null = null;
     private client: SignClient | undefined;
@@ -58,6 +59,7 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
         });
 
         // this._options = config.options;
+        this.chainId = config.chainId;
         this.params = config.params || {
             permissions: {
                 blockchain: { chains: Object.values(WalletConnectChainID) },
@@ -72,9 +74,7 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
             metadata: config.options.metadata,
         });
         this.client = signClient;
-        this.client.on('session_delete', () => {
-            this.handleDisconnect();
-        });
+        this.restoreSession(signClient);
     }
 
     get ready(): boolean {
@@ -103,15 +103,18 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
                 },
             });
 
-            if (uri) {
-                QRCodeModal.open(uri, () => {
-                    console.log('EVENT', 'QR Code Modal closed');
-                    throw new WalletWindowClosedError();
-                });
-            }
-
             // Await session approval from the wallet.
-            const session = await approval();
+            // eslint-disable-next-line no-async-promise-executor
+            const session = await new Promise<SessionTypes.Struct>(async (resolve, reject) => {
+                if (uri) {
+                    QRCodeModal.open(uri, () => {
+                        console.log('EVENT', 'QR Code Modal closed');
+                        reject(new WalletWindowClosedError());
+                    });
+                }
+                const response = await approval();
+                resolve(response);
+            });
             const allNamespaceAccounts = Object.values(session.namespaces)
                 .map((namespace) => namespace.accounts)
                 .flat();
@@ -131,17 +134,15 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
                 }, {});
             let publicKey: PublicKey;
             try {
-                publicKey = addresses[0];
+                publicKey = Object.values(addresses)[0];
             } catch (error: any) {
                 QRCodeModal.close();
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
-            this.session = session;
-            this.publicKey = publicKey;
+            this.saveSession(session, publicKey);
             this.emit('connect', publicKey);
         } catch (error: any) {
-            console.error(error);
             this.emit('error', error);
             if (error instanceof WalletError) throw error;
             throw new WalletConnectionError(error?.message, error);
@@ -162,13 +163,55 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
             } catch (error: any) {
                 this.emit('error', new WalletDisconnectionError(error?.message, error));
             } finally {
-                this.session = null;
-                this.publicKey = null;
+                this.removeSession();
             }
         }
         this.emit('disconnect');
     }
 
+    private saveSession(session: SessionTypes.Struct, publicKey: PublicKey): void {
+        this.session = session;
+        this.publicKey = publicKey;
+
+        const serializedSession = JSON.stringify(session);
+        const serializedPublicKey = publicKey.toString();
+
+        window.localStorage.setItem('walletconnect-session', serializedSession);
+        window.localStorage.setItem('walletconnect-publickey', serializedPublicKey);
+    }
+
+    private removeSession(): void {
+        this.session = null;
+        this.publicKey = null;
+
+        window.localStorage.removeItem('walletconnect-session');
+        window.localStorage.removeItem('walletconnect-publickey');
+    }
+
+    private restoreSession(client: SignClient): void {
+        try {
+            const serializedSession = window.localStorage.getItem('walletconnect-session');
+            const publicKeyAsString = window.localStorage.getItem('walletconnect-publickey');
+
+            if (!serializedSession || !publicKeyAsString) {
+                return;
+            }
+            const session = JSON.parse(serializedSession);
+            const publicKey = new PublicKey(publicKeyAsString);
+
+            this.session = session;
+            this.publicKey = publicKey;
+
+            client.on('session_delete', () => {
+                this.handleDisconnect();
+            });
+            this.emit('connect', publicKey);
+        } catch (error: any) {
+            console.error('Could not restore WalletConnect session', error);
+        }
+    }
+
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     async signMessage(message: Uint8Array) {
         try {
             if (!this.client || !this.publicKey || !this.session) throw new WalletNotConnectedError();
@@ -184,12 +227,11 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
                     },
                 };
 
-                const { result } = await this.client.request({
+                const signature = await this.client.request<string>({
                     topic: this.session.topic,
                     chainId: this.chainId,
                     request: requestParams,
                 });
-                const signature = result.signature;
 
                 if (signature) {
                     return bs58.decode(signature);
@@ -225,8 +267,7 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
                 },
             };
 
-            const { result } = await this.client.request(requestParams);
-            const signature = result.signature;
+            const signature = await this.client.request<string>(requestParams);
 
             if (signature) {
                 transaction.addSignature(this.publicKey, Buffer.from(bs58.decode(signature)));
